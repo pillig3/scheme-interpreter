@@ -1,0 +1,71 @@
+;(#%require rackunit)
+
+;; Returns a lazy list of the primes in order
+(define primes
+  (lambda ()
+    (sieve (lazy-infinite-range 2))))
+
+;; True if n is not 0 mod d, false if it is
+(define not-divisible?
+  (lambda (d n)
+    (not (= (modulo n d) 0))))
+
+;; Curried form of not-divisible?
+(define not-divisible-by
+  (lambda (d)
+    (lambda (n)
+      (not-divisible? d n))))
+
+;; Filters multiples of the first element out of the rest of the lazy
+;; list, and when the rest of the list is accessed, filters again
+(define sieve
+  (lambda (llst)
+    (cons (car llst)
+          (lambda ()
+            (lazy-filter (not-divisible-by (car llst))
+                         (sieve ((cdr llst))))))))
+
+;; Code from lazy-list.scm assignment
+
+;; Returns a lazy list containing the infinite sequence of consecutive
+;; integers starting with first.
+(define lazy-infinite-range
+  (lambda (first)
+    (cons first
+          (lambda () (lazy-infinite-range (+ first 1))))))
+
+;; Returns a list containing the first n values in the lazy list llst.
+(define first-n
+  (lambda (llst n)
+    (cond ((or (null? llst) (= n 0)) (quote()))
+          (else (cons (car llst)
+                      (first-n ((cdr llst)) (- n 1)))))))
+
+;; Returns the n-th value in the lazy list
+(define nth
+  (lambda (llst n)
+    (cond ((null? llst) #f)
+          ((<= n 0) (quote()))
+          ((= n 1) (car llst))
+          (else (nth ((cdr llst)) (- n 1))))))
+
+;; Returns a lazy list that contains all elements of llst that satisfy
+;; the predicate.
+(define lazy-filter
+  (lambda (predicate llst)
+    (cond ((null? llst) (quote()))
+          ((predicate (car llst))
+           (cons (car llst)
+                 (lambda () (lazy-filter predicate
+                                         ((cdr llst))))))
+          (else (lazy-filter predicate ((cdr llst)))))))
+
+;; Unit tests
+(check-equal? (not-divisible? 4 10) #t)
+(check-equal? (not-divisible? 4 44) #f)
+(check-equal? (not-divisible? -4 44) #f)
+(check-equal? ((not-divisible-by -4) 44) #f)
+(check-equal? (first-n (sieve (lazy-infinite-range 4)) 5) (quote (4 5 6 7 9)))
+(check-equal? (first-n (primes) 10) (quote (2 3 5 7 11 13 17 19 23 29)))
+(check-equal? (nth (primes) 20) 71)
+;(check-equal? (nth (primes) 1234) 10061) ;works, just takes a while

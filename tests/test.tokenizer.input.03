@@ -1,0 +1,51 @@
+;;; CS 251 Spring 2018
+;;; HW 4 : First-class functions
+;;; Implements procedures to curry and uncurry 2-parameter functions,
+;;; as well as to compose functions and negate predicates.
+
+; (#%require rackunit)
+
+;; Given a two-parameter function f, curries the function to be a single-
+;; parameter function. Returns this new function.
+(define curry2
+  (lambda (f)
+    (lambda (x)
+      (lambda (y)
+        (f x y)))))
+(check-equal? (((curry2 +) 3 )2) 5)
+
+;; Given a curried two-parameter function f, uncurries the function and returns
+;; the uncurried version.
+(define uncurry2
+  (lambda (f)
+    (lambda (x y)
+      ((f x) y))))
+(check-equal? ((uncurry2 (curry2 +)) 3 4) 7)
+(check-equal? ((uncurry2 (curry2 /)) 25 5) 5)
+
+;; Defines mult (*) using curry2. Takes two numbers x and y as input, and then
+;; calls curry2 with * and applies x and y one at a time to the yielded
+;; functions.
+(define mult
+  (lambda (x y)
+    (((curry2 *) x ) y)))
+(check-equal? (mult -2 9) -18)
+(check-equal? (mult 1 3) 3)
+
+;; Given two single-parameter functions f and g, returns the function f(g). 
+(define compose
+  (lambda (f g)
+    (lambda (x)
+      (f (g x)))))
+(check-equal? ((compose + -) 3) -3)
+(check-equal? ((compose + sqrt) 9) 3)
+
+;; Given a predicate, returns the predicate that is its negation.
+(define negate
+  (lambda (predicate)
+    (lambda (x)
+      (if (not (predicate x))
+          #t ; If predicate fails on x, negation is true
+          #f)))) ; false otherwise
+(check-equal? (even? 3) #f)
+(check-equal? ((negate even?) 3) #t)

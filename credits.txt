@@ -1,0 +1,43 @@
+credits.txt
+
+proj1
+Consulted tutorialspoint.com/cprogramming/c_unions.htm on how unions work
+
+proj2
+Consulted www.cprogramming.com/reference/preprocessor/ifndef.html on the meaning of #ifndef
+
+proj3
+Consulted the C style guide (linked to on class website)
+
+proj4
+No outside sources used.
+
+proj5
+No outside sources used.
+
+proj6
+No outside sources used.
+
+proj7
+No outside sources used.
+
+proj8
+Used R5RS standard (a lot) to find the specifications of built-in functions.
+
+optional extensions:
+' as quote: Consulted
+            https://docs.racket-lang.org/reference/reader.html#%28part._parse-quote%29
+                to figure out how to handle 'expr as a variant of (quote expr)
+
+load: Consulted 
+      https://www.tutorialspoint.com/cprogramming/c_file_io.htm 
+
+gcd: Consulted https://en.wikipedia.org/wiki/Euclidean_algorithm 
+
+REPL: Consulted 
+      stackoverflow.com/questions/36258224 to learn about isatty
+      en.wikipedia.org/wiki/Read-eval-print_loop to gain a general sense of
+          what an REPL is
+      https://stackoverflow.com/questions/584868/rerouting-stdin-and-stdout-from-c
+          to debug errors with using load and the REPL together
+      

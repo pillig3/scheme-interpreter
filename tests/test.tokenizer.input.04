@@ -1,0 +1,16 @@
+( "I am writing scheme code even though it's not valid"
+     (define 
+         (lambda (x) 
+              (if (= x -.2 .3) 
+                  #t
+                  #f)
+          )
+      ) (;; comment in the middle? that's silly.
+      
+      "ha\"ha"
+      )
+      23 
+      .3543 
+      +3.2 
+      -3.52040 
+      ?symbol)()(

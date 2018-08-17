@@ -1,0 +1,1 @@
+(define frog (lambda (x (y) ()) (if (= x y) #t #f))) (frog 2.500000 -3) (if (frog (+ 33 21) (* 2 27)) "Success!" "Failure") ((a (() "testing")) (1.123000) (#t 3 0.100000))
